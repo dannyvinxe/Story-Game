@@ -1,0 +1,118 @@
+import random
+
+# Define a function to start the game
+def start_game():
+    print("Welcome to the Scary Story Game!")
+    print("You wake up disoriented in the foyer of an old, abandoned mansion deep in the woods.")
+    print("You have no memory of how you got here. All you know is that you must escape this place to survive.")
+    print("You must explore the mansion and uncover its secrets to escape alive!")
+    explore_mansion()
+
+# Define a function to explore the mansion
+def explore_mansion():
+    player_location = "foyer"
+    inventory = []
+
+    # Define rooms and their descriptions
+    rooms = {
+        "foyer": {
+            "description": "You are in the grand foyer of the mansion. Cobwebs hang from the chandeliers and dust covers the floor.",
+            "actions": ["explore", "take key", "go to hallway"]
+        },
+        "hallway": {
+            "description": "You are in a dark hallway. Doors line the walls, each leading to unknown horrors.",
+            "actions": ["explore", "open door", "go to foyer", "go to living room"]
+        },
+        "living room": {
+            "description": "You enter the living room. The furniture is old and decaying, and the air feels thick with dread.",
+            "actions": ["explore", "search fireplace", "go to hallway", "go to kitchen"]
+        },
+        "kitchen": {
+            "description": "You step into the kitchen. The smell of decay fills the air and the sound of dripping water echoes ominously.",
+            "actions": ["explore", "search cabinets", "go to living room"]
+        }
+    }
+
+    # Main game loop
+    while True:
+        print(rooms[player_location]["description"])
+        print("Actions:")
+        for action in rooms[player_location]["actions"]:
+            print("- " + action)
+
+        player_action = input("What do you want to do? ").lower()
+
+        # Process player's action
+        if player_action == "explore":
+            explore_room()
+        elif player_action == "go to hallway":
+            player_location = "hallway"
+        elif player_action == "go to living room":
+            player_location = "living room"
+        elif player_action == "go to kitchen":
+            player_location = "kitchen"
+        elif player_action == "take key":
+            take_key(inventory)
+        elif player_action == "open door":
+            open_door()
+        elif player_action == "search fireplace":
+            search_fireplace(inventory)
+        elif player_action == "search cabinets":
+            search_cabinets(inventory)
+        else:
+            print("Invalid action. Try again.")
+
+# Define functions for various actions
+def explore_room():
+    # Generate random scary events or items
+    # Display descriptions or outcomes
+    print("You look around carefully, but find nothing of interest.")
+    riddle = generate_riddle()
+    print("Suddenly, a voice echoes in the room:\n" + riddle)
+    guess_riddle()
+
+def take_key(inventory):
+    print("You take a rusty key.")
+    inventory.append("rusty key")
+
+def open_door():
+    print("You open the door and...")
+    if random.randint(1, 10) <= 5:
+        print("A terrifying monster leaps out at you! You've been eaten alive...")
+        # End game
+    else:
+        print("You find nothing but darkness beyond the door.")
+
+def search_fireplace(inventory):
+    print("You search the fireplace and find a torn piece of paper with strange symbols on it.")
+    inventory.append("torn paper")
+
+def search_cabinets(inventory):
+    print("You search the cabinets and find a small flashlight.")
+    inventory.append("flashlight")
+
+def generate_riddle():
+    riddles = [
+        "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+        "The more you take, the more you leave behind. What am I?",
+        "What comes once in a minute, twice in a moment, but never in a thousand years?",
+        "I’m light as a feather, but even the world’s strongest man couldn’t hold me for much longer than a minute. What am I?"
+    ]
+    return random.choice(riddles)
+
+def guess_riddle():
+    answer = ""
+    while answer.lower() != "correct":
+        answer = input("What's your guess? ").lower()
+        if answer == "wind" or answer == "echo" or answer == "breath":
+            print("Correct! You feel a sense of relief as the voice fades away.")
+            break
+        elif answer == "footsteps" or answer == "time" or answer == "life":
+            print("Hmm, not quite. Here's a hint: It's something intangible.")
+        elif answer == "fog" or answer == "light" or answer == "breath":
+            print("Close, but not quite. Here's a hint: Think about something immaterial.")
+        else:
+            print("That's not it. Here's a hint: It's something you can't see or touch.")
+
+# Start the game
+start_game()
